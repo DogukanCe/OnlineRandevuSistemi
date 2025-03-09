@@ -23,7 +23,7 @@ namespace OnlineRandevuSistemi.DataAccess.Db
             modelBuilder.Entity<User>().HasIndex(u => u.Username).IsUnique();
             modelBuilder.Entity<Service>()
         .Property(s => s.Price)
-        .HasPrecision(18, 2); // Toplam 18 basamak, 2 ondalık basamak
+        .HasPrecision(18, 2); 
 
             base.OnModelCreating(modelBuilder);
         }

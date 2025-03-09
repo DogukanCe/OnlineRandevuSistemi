@@ -10,7 +10,7 @@ namespace OnlineRandevuSistemi.Entites
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Description { get; set; } // Hizmet açıklaması
-        public decimal Price { get; set; } // Hizmet fiyatı
+        public string Description { get; set; }
+        public decimal Price { get; set; }
     }
 }

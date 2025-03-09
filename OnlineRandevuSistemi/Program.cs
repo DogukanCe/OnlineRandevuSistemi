@@ -82,19 +82,6 @@ if (!app.Environment.IsDevelopment())
 }
 
 
-
-
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    services.Services.AddRange(
-    new Service { Name = "Egzoz Gazý Ölçümü", Description = "Egzoz emisyon testi" },
-    new Service { Name = "Fren Testi", Description = "Araç fren sistemi testi" },
-    new Service { Name = "Far Ayarý", Description = "Far ýþýk seviyesinin ayarlanmasý" }
-);
-    services.SaveChanges();
-}
-
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
@@ -112,10 +99,3 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
-
-//app.UseEndpoints(endpoints =>
-//{
-//    endpoints.MapControllerRoute(
-//        name: "user",
-//        pattern: "{controller=User}/{action=Index}/{id?}");
-//});

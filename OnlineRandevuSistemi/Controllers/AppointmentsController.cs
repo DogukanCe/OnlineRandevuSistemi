@@ -8,7 +8,7 @@ using System.Security.Claims;
 
 namespace OnlineRandevuSistemi.Controllers
 {
-    //[Authorize(Roles = "User")]
+    [Authorize(Roles = "User")]
     public class AppointmentsController : Controller
     {
         private readonly IAppointmentService _appointmentService;

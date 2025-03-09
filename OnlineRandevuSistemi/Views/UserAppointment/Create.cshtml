@@ -28,7 +28,7 @@
 <script>
     $(document).ready(function () {
         $("#createAppointmentForm").submit(function (event) {
-            event.preventDefault(); // Sayfanın yenilenmesini engelle
+            event.preventDefault(); 
 
             $.ajax({
                 url: '@Url.Action("Create", "UserAppointment")',
@@ -36,7 +36,7 @@
                 data: $(this).serialize(),
                 success: function (response) {
                     toastr.success("Randevu başarıyla oluşturuldu!");
-                    window.location.href = "/UserAppointment/Index"; // Listeye yönlendir
+                    window.location.href = "/UserAppointment/Index";
                 },
                 error: function () {
                     toastr.error("Randevu oluşturulurken hata oluştu!");

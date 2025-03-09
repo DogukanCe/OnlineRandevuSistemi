@@ -46,7 +46,7 @@
                 data: { id: appointmentId },
                 success: function (response) {
                     toastr.success("Randevu iptal edildi!");
-                    $("#row-" + appointmentId).remove(); // Tablo satırını kaldır
+                    $("#row-" + appointmentId).remove(); 
                 },
                 error: function () {
                     toastr.error("Randevu iptal edilirken hata oluştu!");

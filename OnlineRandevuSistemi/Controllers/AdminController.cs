@@ -8,7 +8,7 @@ using Org.BouncyCastle.Crypto.Generators;
 
 namespace OnlineRandevuSistemi.Controllers
 {
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         private readonly IUserRepository _userRepository;
