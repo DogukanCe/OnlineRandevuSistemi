@@ -1,0 +1,12 @@
+﻿@model OnlineRandevuSistemi.Entites.Appointment
+
+@{
+    ViewData["Title"] = "Randevu Detayları";
+}
+
+<h2>Randevu Detayları</h2>
+<p>
+    <strong>Tarih:</strong> @Model.AppointmentDate.ToString("dd/MM/yyyy HH:mm")<br />
+    <strong>Durum:</strong> @Model.Status
+</p>
+<a asp-action="Index" class="btn btn-secondary">Geri Dön</a>

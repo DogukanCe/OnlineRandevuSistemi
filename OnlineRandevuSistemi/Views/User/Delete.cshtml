@@ -1,0 +1,12 @@
+﻿<script>
+    $(document).on("click", ".btn-delete", function () {
+        var id = $(this).data("id");
+        $.ajax({
+            type: "POST",
+            url: "/User/Delete/" + id,
+            success: function () {
+                loadAppointments();
+            }
+        });
+    });
+</script>

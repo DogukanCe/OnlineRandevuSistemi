@@ -1,0 +1,25 @@
+﻿@model OnlineRandevuSistemi.Entites.UserToken.User
+
+<h2>Yeni Kullanıcı Ekle</h2>
+
+<form asp-action="AddUser" method="post">
+    <div>
+        <label>Kullanıcı Adı:</label>
+        <input asp-for="Username" required />
+        <span asp-validation-for="Username"></span>
+    </div>
+    <div>
+        <label>Şifre:</label>
+        <input asp-for="PasswordHash" type="password" required />
+        <span asp-validation-for="PasswordHash"></span>
+    </div>
+    <div>
+        <label>Rol:</label>
+        <select asp-for="Role">
+            <option value="User">User</option>
+            <option value="Admin">Admin</option>
+        </select>
+        <span asp-validation-for="Role"></span>
+    </div>
+    <button type="submit">Kullanıcı Ekle</button>
+</form>

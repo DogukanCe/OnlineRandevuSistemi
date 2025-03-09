@@ -1,0 +1,31 @@
+﻿@model IEnumerable<OnlineRandevuSistemi.Entites.Service>
+
+@{
+    ViewData["Title"] = "Hizmetler";
+}
+
+<h2>Hizmet Listesi</h2>
+<table class="table table-bordered">
+    <tr>
+        <th>ID</th>
+        <th>Ad</th>
+        <th>Açıklama</th>
+        <th>Fiyat</th>
+        <th>İşlemler</th>
+    </tr>
+    @foreach (var service in Model)
+    {
+        <tr>
+            <td>@service.Id</td>
+            <td>@service.Name</td>
+            <td>@service.Description</td>
+            <td>@service.Price.ToString("C")</td>
+            <td>
+                <a href="/Service/Details/@service.Id" class="btn btn-info">Detay</a>
+                <a href="/Service/Edit/@service.Id" class="btn btn-warning">Düzenle</a>
+                <a href="/Service/Delete/@service.Id" class="btn btn-danger">Sil</a>
+            </td>
+        </tr>
+    }
+</table>
+<a href="/Service/Create" class="btn btn-success">Yeni Hizmet Ekle</a>

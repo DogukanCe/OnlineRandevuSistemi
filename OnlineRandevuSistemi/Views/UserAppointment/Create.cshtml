@@ -1,0 +1,43 @@
+﻿@model OnlineRandevuSistemi.Entites.Appointment
+
+@{
+    ViewData["Title"] = "Yeni Randevu Al";
+}
+
+<h2>Yeni Randevu Al</h2>
+
+<form asp-action="Create" method="post">
+    <div class="mb-3">
+        <label for="AppointmentDate" class="form-label">Randevu Tarihi</label>
+        <input type="datetime-local" class="form-control" asp-for="AppointmentDate" required />
+    </div>
+
+    <div class="mb-3">
+        <label for="ServiceId" class="form-label">Hizmet</label>
+        <select class="form-control" asp-for="ServiceId">
+            @foreach (var service in ViewBag.Services)
+            {
+                <option value="@service.Id">@service.Name</option>
+            }
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-success">Randevu Al</button>
+</form>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#createAppointmentForm").submit(function (event) {
+            event.preventDefault(); // Sayfanın yenilenmesini engelle
+
+            $.ajax({
+                url: '@Url.Action("Create", "UserAppointment")',
+                type: 'POST',
+                data: $(this).serialize(),
+                success: function (response) {
+                    toastr.success("Randevu başarıyla oluşturuldu!");
+                    window.location.href = "/UserAppointment/Index"; // Listeye yönlendir
+                },
+                error: function () {
+                    toastr.error("Randevu oluşturulurken hata oluştu!");
+

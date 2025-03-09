@@ -1,0 +1,30 @@
+﻿@model OnlineRandevuSistemi.Entites.Appointment
+
+@{
+    ViewData["Title"] = "Randevu Sil";
+}
+
+<h2>Randevuyu Sil</h2>
+<p>Bu randevuyu silmek istediğinize emin misiniz?</p>
+<p>
+    <strong>Tarih:</strong> @Model.AppointmentDate.ToString("dd/MM/yyyy HH:mm")<br />
+    <strong>Durum:</strong> @Model.Status
+</p>
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Sil</button>
+    <a asp-action="Index" class="btn btn-secondary">İptal</a>
+</form>
+<script>
+function deleteAppointment(id) {
+    if (!confirm("Randevuyu silmek istediğinize emin misiniz?")) return;
+
+    $.post("/Appointment/Delete", { id: id }, function (response) {
+        if (response.success) {
+            $("#appointment-" + id).remove();
+        } else {
+            alert("Silme işlemi başarısız!");
+        }
+    });
+}
+</script>

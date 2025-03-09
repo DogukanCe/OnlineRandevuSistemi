@@ -1,0 +1,25 @@
+﻿@model IEnumerable<OnlineRandevuSistemi.Entites.Appointment>
+
+<h2>Randevu Listesi</h2>
+<table class="table table-bordered">
+    <tr>
+        <th>ID</th>
+        <th>Tarih</th>
+        <th>Durum</th>
+        <th>İşlemler</th>
+    </tr>
+    @foreach (var appointment in Model)
+    {
+        <tr>
+            <td>@appointment.Id</td>
+            <td>@appointment.AppointmentDate.ToString("dd/MM/yyyy HH:mm")</td>
+            <td>@appointment.Status</td>
+            <td>
+                <a href="/Appointment/Details/@appointment.Id" class="btn btn-info">Detay</a>
+                <a href="/Appointment/Edit/@appointment.Id" class="btn btn-warning">Düzenle</a>
+                <a href="/Appointment/Delete/@appointment.Id" class="btn btn-danger">Sil</a>
+            </td>
+        </tr>
+    }
+</table>
+<a href="/Appointments/Create" class="btn btn-success">Yeni Randevu Ekle</a>

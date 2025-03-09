@@ -1,0 +1,88 @@
+﻿@model IEnumerable<OnlineRandevuSistemi.Entites.Appointment>
+
+
+<h2>Randevu Yönetimi</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Kullanıcı</th>
+            <th>Hizmet</th>
+            <th>Tarih</th>
+            <th>Durum</th>
+            <th>İşlem</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr id="row_@item.Id">
+                <td>@item.User.Username</td>
+                <td>@item.Service.Name</td>
+                <td>@item.AppointmentDate.ToString("dd/MM/yyyy HH:mm")</td>
+                <td>
+                    <select class="form-control status-dropdown" data-id="@item.Id">
+                        <option value="Beklemede" selected="@(item.Status == "Beklemede" ? "selected" : "")">Beklemede</option>
+                        <option value="Onaylandı" selected="@(item.Status == "Onaylandı" ? "selected" : "")">Onaylandı</option>
+                        <option value="İptal Edildi" selected="@(item.Status == "İptal Edildi" ? "selected" : "")">İptal Edildi</option>
+                        <option value="Tamamlandı" selected="@(item.Status == "Tamamlandı" ? "selected" : "")">Tamamlandı</option>
+                    </select>
+                </td>
+                <td>
+                    <button class="btn btn-danger btn-sm delete-btn" data-id="@item.Id">Sil</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    $(document).ready(function () {
+        $(".status-dropdown").change(function () {
+            var id = $(this).data("id");
+            var status = $(this).val();
+
+            $.ajax({
+                type: "POST",
+                url: "/Admin/UpdateAppointmentStatus",
+                data: { id: id, status: status },
+                success: function () {
+                    Swal.fire("Başarılı!", "Randevu durumu güncellendi.", "success");
+                },
+                error: function () {
+                    Swal.fire("Hata!", "Durum güncellenemedi.", "error");
+                }
+            });
+        });
+
+        $(".delete-btn").click(function () {
+            var id = $(this).data("id");
+
+            Swal.fire({
+                title: "Emin misiniz?",
+                text: "Bu randevu silinecek!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Evet, sil!",
+                cancelButtonText: "İptal"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/Appointment/Delete",
+                        data: { id: id },
+                        success: function (response) {
+                            if (response.success) {
+                                $("#row_" + id).remove();
+                                Swal.fire("Silindi!", "Randevu başarıyla silindi.", "success");
+                            }
+                        },
+                        error: function () {
+                            Swal.fire("Hata!", "Silme işlemi başarısız oldu.", "error");
+                        }
+                    });
+                }
+            });
+        });
+    });
+</script>

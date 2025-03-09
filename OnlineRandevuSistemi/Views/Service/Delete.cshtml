@@ -1,0 +1,14 @@
+﻿@model OnlineRandevuSistemi.Entites.Service
+@{
+    ViewData["Title"] = "Hizmet Sil";
+}
+
+<h2>Hizmeti Sil</h2>
+
+<p><strong>@Model.Name</strong> hizmetini silmek istediğinize emin misiniz?</p>
+
+<form asp-action="DeleteConfirmed" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Evet, Sil</button>
+    <a asp-action="Index" class="btn btn-secondary">İptal</a>
+</form>

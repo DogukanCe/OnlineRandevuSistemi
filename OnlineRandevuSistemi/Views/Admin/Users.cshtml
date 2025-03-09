@@ -1,0 +1,48 @@
+﻿@model IEnumerable<OnlineRandevuSistemi.Entites.UserToken.User>
+
+<h2>Kullanıcı Listesi</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Kullanıcı Adı</th>
+            <th>Rol</th>
+            <th>İşlemler</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr id="row-@user.Id">
+                <td>@user.Id</td>
+                <td>@user.Username</td>
+                <td>@user.Role</td>
+                <td>
+                    <button class="btn btn-danger delete-user" data-id="@user.Id">Sil</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    $(document).ready(function () {
+        $(".delete-user").click(function () {
+            var userId = $(this).data("id");
+            if (confirm("Bu kullanıcıyı silmek istediğinize emin misiniz?")) {
+                $.ajax({
+                    url: '/Admin/DeleteUser/' + userId,
+                    type: 'POST',
+                    success: function (response) {
+                        $("#row-" + userId).remove();
+                        alert("Kullanıcı başarıyla silindi!");
+                    },
+                    error: function () {
+                        alert("Hata oluştu. Kullanıcı silinemedi.");
+                    }
+                });
+            }
+        });
+    });
+</script>

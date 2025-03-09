@@ -1,0 +1,82 @@
+﻿@model IEnumerable<OnlineRandevuSistemi.Entites.Appointment>
+
+@{
+    ViewData["Title"] = "Randevularım";
+}
+
+<h2>Randevularım</h2>
+
+<a href="@Url.Action("Create", "UserAppointment")" class="btn btn-primary">Yeni Randevu Al</a>
+
+<table class="table table-striped mt-3">
+    <thead>
+        <tr>
+            <th>Tarih</th>
+            <th>Hizmet</th>
+            <th>Durum</th>
+            <th>İşlemler</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.AppointmentDate.ToString("dd/MM/yyyy HH:mm")</td>
+                <td>@item.Service.Name</td>
+                <td>@item.Status</td>
+                <td>
+                    <a href="@Url.Action("Edit", "UserAppointment", new { id = item.Id })" class="btn btn-warning btn-sm">Düzenle</a>
+                    <form asp-action="Cancel" method="post" class="d-inline">
+                        <input type="hidden" name="id" value="@item.Id" />
+                        <button type="submit" class="btn btn-danger btn-sm">İptal Et</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<script>
+    $(document).ready(function () {
+        $(".cancel-appointment").click(function () {
+            var appointmentId = $(this).data("id");
+
+            $.ajax({
+                url: '@Url.Action("Cancel", "UserAppointment")',
+                type: 'POST',
+                data: { id: appointmentId },
+                success: function (response) {
+                    toastr.success("Randevu iptal edildi!");
+                    $("#row-" + appointmentId).remove(); // Tablo satırını kaldır
+                },
+                error: function () {
+                    toastr.error("Randevu iptal edilirken hata oluştu!");
+                }
+            });
+        });
+    });
+</script>
+
+<table class="table table-striped mt-3">
+    <thead>
+        <tr>
+            <th>Tarih</th>
+            <th>Hizmet</th>
+            <th>Durum</th>
+            <th>İşlemler</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr id="row-@item.Id">
+                <td>@item.AppointmentDate.ToString("dd/MM/yyyy HH:mm")</td>
+                <td>@item.Service.Name</td>
+                <td>@item.Status</td>
+                <td>
+                    <a href="@Url.Action("Edit", "UserAppointment", new { id = item.Id })" class="btn btn-warning btn-sm">Düzenle</a>
+                    <button data-id="@item.Id" class="btn btn-danger btn-sm cancel-appointment">İptal Et</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

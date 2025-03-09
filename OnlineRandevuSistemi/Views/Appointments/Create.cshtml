@@ -1,0 +1,39 @@
+﻿@using OnlineRandevuSistemi.Entites;
+
+@model OnlineRandevuSistemi.Entites.Appointment
+<h2>Yeni Randevu Ekle</h2>
+
+<form id="createAppointmentForm">
+    <label for="AppointmentDate">Tarih Seç:</label>
+    <input type="datetime-local" id="AppointmentDate" name="AppointmentDate" required />
+
+    <label for="ServiceId">Hizmet Seç:</label>
+    <select id="ServiceId" name="ServiceId" required>
+        @foreach (var service in ViewBag.Services)
+        {
+            <option value="@service.Id">@service.Name</option>
+        }
+    </select>
+
+    <button type="submit">Kaydet</button>
+</form>
+
+<script>
+    $("#createAppointmentForm").submit(function (e) {
+        e.preventDefault();
+        let formData = $(this).serialize();
+
+        $.ajax({
+            url: "/Appointment/Create",
+            type: "POST",
+            data: formData,
+            success: function (response) {
+                toastr.success("Randevu başarıyla eklendi!");
+                window.location.href = "/Appointment";
+            },
+            error: function () {
+                toastr.error("Bir hata oluştu!");
+            }
+        });
+    });
+</script>

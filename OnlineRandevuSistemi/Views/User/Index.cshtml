@@ -1,0 +1,72 @@
+﻿@model IEnumerable<OnlineRandevuSistemi.Entites.Appointment>
+<h2>Randevularım</h2>
+<table>
+    <tr>
+        <th>Tarih</th>
+        <th>Hizmet</th>
+        <th>Durum</th>
+        <th>İşlemler</th>
+    </tr>
+    @foreach (var appointment in Model)
+    {
+        <tr>
+            <td>@appointment.AppointmentDate.ToString("dd/MM/yyyy HH:mm")</td>
+            <td>@appointment.Service.Name</td>
+            <td>@appointment.Status</td>
+            <td>
+                <a href="/User/Update/@appointment.Id">Düzenle</a> |
+                <a href="/User/Delete/@appointment.Id">Sil</a>
+            </td>
+        </tr>
+    }
+</table>
+<form id="appointmentForm">
+    <input type="datetime-local" id="appointmentDate" required>
+    <select id="serviceId">
+        <option value="1">Egzoz Gazı Ölçümü</option>
+        <option value="2">Fren Testi</option>
+        <option value="3">Far Ayarı</option>
+    </select>
+    <button type="submit">Randevu Al</button>
+</form>
+<div id="appointmentList">
+    @Html.Partial("_AppointmentList", Model)
+</div>
+
+
+<a href="/User/Create">Yeni Randevu Ekle</a>
+
+
+<script>
+    $(document).ready(function () {
+        $("#appointmentForm").submit(function (e) {
+            e.preventDefault();
+            var data = {
+                appointmentDate: $("#appointmentDate").val(),
+                serviceId: $("#serviceId").val()
+            };
+            $.ajax({
+                type: "POST",
+                url: "/User/Create",
+                data: JSON.stringify(data),
+                contentType: "application/json",
+                success: function () {
+                    loadAppointments();
+                }
+            });
+        });
+
+        function loadAppointments() {
+            $("#appointmentList").load("/User/GetAppointments");
+        }
+    });
+
+        $(document).ready(function () {
+            function loadAppointments() {
+                $("#appointmentList").load("/User/GetAppointments");
+            }
+
+            loadAppointments(); // Sayfa yüklendiğinde randevuları getir
+        });
+
+</script>
